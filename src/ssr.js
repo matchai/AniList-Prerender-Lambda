@@ -43,7 +43,8 @@ function log(...stuffToLog) {
 }
 
 module.exports.handler = async function handler(event, context, callback) {
-  const { url } = event.queryStringParameters || {};
+  const { path } = event.queryStringParameters || {};
+  const url = `https://anilist.co/${path}`;
 
   let data;
 
