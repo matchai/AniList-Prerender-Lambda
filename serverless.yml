@@ -2,7 +2,7 @@ service: aws
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs8.10
   stage: dev
   region: us-east-1
   environment:
@@ -12,7 +12,6 @@ provider:
 
 plugins:
   - serverless-plugin-chrome
-  - serverless-webpack
 
 custom:
   chrome:
@@ -20,11 +19,12 @@ custom:
       - --window-size=1280,1696 # Letter size
       - --hide-scrollbars
 
+functions:
   ssr:
     description: Headless Chrome Serverless-framework SSR
     memorySize: 1536
     timeout: 15
-    handler: src/handlers/ssr.default
+    handler: src/ssr.handler
     events:
       - http:
           path: ssr
@@ -36,6 +36,10 @@ resources:
       Properties:
         BinaryMediaTypes:
           - "*/*"
+
+package: 
+  exclude: 
+    - node_modules/puppeteer/.local-chromium/** # Exclude puppeteer chrome if exists 
 
     # Enable X-Ray tracing on Lambda functions
     # ScreenshotLambdaFunction:
