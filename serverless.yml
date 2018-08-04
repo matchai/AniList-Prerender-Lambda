@@ -5,10 +5,6 @@ provider:
   runtime: nodejs8.10
   stage: dev
   region: us-east-1
-  environment:
-    DEBUG: "*"
-    PAGE_LOAD_TIMEOUT: 20000
-    LOGGING: true
 
 plugins:
   - serverless-plugin-chrome
@@ -40,13 +36,3 @@ resources:
 package: 
   exclude: 
     - node_modules/puppeteer/.local-chromium/** # Exclude puppeteer chrome if exists 
-
-    # Enable X-Ray tracing on Lambda functions
-    # ScreenshotLambdaFunction:
-    #   Properties:
-    #     TracingConfig:
-    #       Mode: Active
-    # PdfLambdaFunction:
-    #   Properties:
-    #     TracingConfig:
-    #       Mode: Active
