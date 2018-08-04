@@ -1,5 +1,5 @@
-const webpack = require('webpack')
-const slsw = require('serverless-webpack')
+const webpack = require('webpack');
+const slsw = require('serverless-webpack');
 
 module.exports = {
   devtool: 'source-map',
@@ -35,4 +35,4 @@ module.exports = {
     }),
   ],
   entry: slsw.lib.entries,
-}
+};

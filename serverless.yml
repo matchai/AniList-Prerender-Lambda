@@ -20,17 +20,6 @@ custom:
       - --window-size=1280,1696 # Letter size
       - --hide-scrollbars
 
-functions:
-  version-info:
-    description: Headless Chrome Serverless-framework version info example
-    memorySize: 1024
-    timeout: 30
-    handler: src/handlers/version.default
-    events:
-      - http:
-          path: version-info
-          method: get
-
   ssr:
     description: Headless Chrome Serverless-framework SSR
     memorySize: 1536
