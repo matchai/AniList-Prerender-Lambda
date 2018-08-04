@@ -31,16 +31,6 @@ functions:
           path: version-info
           method: get
 
-  request-logger:
-    description: Headless Chrome Serverless-framework request logging example
-    memorySize: 1024
-    timeout: 30
-    handler: src/handlers/requestLogger.default
-    events:
-      - http:
-          path: request-logger
-          method: get
-
   ssr:
     description: Headless Chrome Serverless-framework SSR
     memorySize: 1536
@@ -50,7 +40,6 @@ functions:
       - http:
           path: ssr
           method: get
-
 
 resources:
   Resources:

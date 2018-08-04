@@ -40,7 +40,8 @@
   },
   "homepage": "https://github.com/adieuadieu/serverless-chrome/tree/master/examples/serverless-framework/aws",
   "dependencies": {
-    "chrome-remote-interface": "0.25.3"
+    "chrome-remote-interface": "0.25.3",
+    "puppeteer": "^1.6.2"
   },
   "devDependencies": {
     "babel-core": "6.26.0",
