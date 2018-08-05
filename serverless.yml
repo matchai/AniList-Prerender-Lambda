@@ -1,4 +1,4 @@
-service: aws
+service: anilist-ssr
 
 provider:
   name: aws
