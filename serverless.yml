@@ -18,7 +18,7 @@ custom:
 functions:
   ssr:
     description: Headless Chrome Serverless-framework SSR
-    memorySize: 1536
+    memorySize: 1024
     timeout: 15
     handler: src/ssr.handler
     events:

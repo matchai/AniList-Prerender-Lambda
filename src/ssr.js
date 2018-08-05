@@ -1,6 +1,7 @@
 const request = require('superagent');
 const launchChrome = require('@serverless-chrome/lambda');
 const puppeteer = require('puppeteer');
+const rimraf = require('rimraf');
 
 async function getChrome() {
   const chrome = await launchChrome();
@@ -24,6 +25,17 @@ async function render(url) {
   });
 
   const page = await browser.newPage();
+  await page.setRequestInterception(true);
+
+  // Only load the necessary filetypes
+  page.on('request', (req) => {
+    const whitelist = ['document', 'script', 'xhr', 'fetch'];
+    if (!whitelist.includes(req.resourceType())) {
+      return req.abort();
+    }
+    return req.continue();
+  });
+
   await page.setViewport({ width: 1920, height: 1080 });
   await page.goto(url, { waitUntil: 'networkidle0' });
 
@@ -56,11 +68,14 @@ module.exports.handler = async function handler(event, context, callback) {
   try {
     data = await render(fullUrl);
   } catch (error) {
-    console.error('Error capturing screenshot for', fullUrl, error);
+    console.error('Error rendering page for', fullUrl, error);
     return callback(error);
   }
 
   log(`Chromium took ${Date.now() - startTime}ms to load URL and capture screenshot.`);
+
+  // Clear /tmp to avoid filling 512MB of drive space
+  rimraf.sync('/tmp');
 
   return callback(null, {
     statusCode: 200,
