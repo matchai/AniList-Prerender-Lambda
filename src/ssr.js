@@ -27,11 +27,12 @@ async function render(url) {
   await page.setViewport({ width: 1920, height: 1080 });
   await page.goto(url, { waitUntil: 'networkidle0' });
 
-  let html = '[NotFound] Page not found';
-  if (page.url() !== 'https://anilist.co/404') {
-    html = await page.content();
+  if (page.url() === 'https://anilist.co/404') {
+    throw '[NotFound] Page not found';
   }
-
+  
+  const html = await page.content();
+  
   await browser.close();
   setTimeout(() => chrome.instance.kill(), 0);
   return html;
@@ -56,7 +57,7 @@ module.exports.handler = async function handler(event, context, callback) {
   try {
     data = await render(fullUrl);
   } catch (error) {
-    console.error('Error capturing screenshot for', fullUrl, error);
+    console.error('Error rendering page for', fullUrl, error);
     return callback(error);
   }
 
