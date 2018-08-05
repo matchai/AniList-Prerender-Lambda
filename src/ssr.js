@@ -44,19 +44,19 @@ function log(...stuffToLog) {
 }
 
 module.exports.handler = async function handler(event, context, callback) {
-  const { path } = event.queryStringParameters || {};
-  const url = `https://anilist.co/${path}`;
+  const { url } = event.queryStringParameters || {};
+  const fullUrl = `https://anilist.co/${url}`;
 
   let data;
 
-  log('Prerendering', url);
+  log('Prerendering', fullUrl);
 
   const startTime = Date.now();
 
   try {
-    data = await render(url);
+    data = await render(fullUrl);
   } catch (error) {
-    console.error('Error capturing screenshot for', url, error);
+    console.error('Error capturing screenshot for', fullUrl, error);
     return callback(error);
   }
 
