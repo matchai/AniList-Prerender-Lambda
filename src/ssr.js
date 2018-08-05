@@ -39,11 +39,12 @@ async function render(url) {
   await page.setViewport({ width: 1920, height: 1080 });
   await page.goto(url, { waitUntil: 'networkidle0' });
 
-  let html = '[NotFound] Page not found';
-  if (page.url() !== 'https://anilist.co/404') {
-    html = await page.content();
+  if (page.url() === 'https://anilist.co/404') {
+    throw '[NotFound] Page not found';
   }
-
+  
+  const html = await page.content();
+  
   await browser.close();
   setTimeout(() => chrome.instance.kill(), 0);
   return html;
