@@ -40,11 +40,11 @@ async function render(url) {
   await page.goto(url, { waitUntil: 'networkidle0' });
 
   if (page.url() === 'https://anilist.co/404') {
-    throw '[NotFound] Page not found';
+    throw new Error('[NotFound] Page not found');
   }
-  
+
   const html = await page.content();
-  
+
   await browser.close();
   setTimeout(() => chrome.instance.kill(), 0);
   return html;
@@ -70,6 +70,7 @@ module.exports.handler = async function handler(event, context, callback) {
     data = await render(fullUrl);
   } catch (error) {
     console.error('Error rendering page for', fullUrl, error);
+    context.callbackWaitsForEmptyEventLoop = false;
     return callback(error);
   }
 
