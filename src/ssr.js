@@ -4,6 +4,12 @@ const puppeteer = require('puppeteer');
 const rimraf = require('rimraf');
 
 async function getChrome() {
+  // Clear /tmp to avoid filling 512MB of drive space
+  rimraf('/tmp/*', (error) => {
+    if (!error) return;
+    console.error('Unable to delete "/tmp/*"', error);
+  });
+
   const chrome = await launchChrome();
 
   const response = await request
@@ -74,10 +80,7 @@ module.exports.handler = async function handler(event, context, callback) {
     return callback(error);
   }
 
-  log(`Chromium took ${Date.now() - startTime}ms to load URL and capture screenshot.`);
-
-  // Clear /tmp to avoid filling 512MB of drive space
-  rimraf.sync('/tmp');
+  log(`Chromium took ${Date.now() - startTime}ms to load URL and render the page.`);
 
   return callback(null, {
     statusCode: 200,
